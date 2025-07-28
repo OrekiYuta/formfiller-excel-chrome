@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Excel 自动评论助手 - 设置页面</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+      max-width: 900px;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+    input, button {
+      font-size: 16px;
+      padding: 10px;
+      margin-top: 15px;
+      width: 100%;
+      max-width: 500px;
+      display: block;
+    }
+    #status {
+      margin-top: 20px;
+      white-space: pre-wrap;
+      background: #f8f8f8;
+      border: 1px solid #ccc;
+      padding: 15px;
+      border-radius: 5px;
+      min-height: 120px;
+      color: #333;
+      font-family: monospace;
+    }
+  </style>
+</head>
+<body>
+  <h1>Excel 自动评论助手 - 设置页面</h1>
+
+  <input type="file" id="excelFile" accept=".xlsx" />
+  <button id="run">打开网页并填写评论</button>
+
+  <div id="status">状态信息会显示在这里...</div>
+
+  <script src="libs/xlsx.full.min.js"></script>
+  <script src="options.js"></script>
+</body>
+</html>
