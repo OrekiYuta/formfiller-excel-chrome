@@ -1,48 +1,78 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8" />
-  <title>Excel 自动评论助手 - 设置页面</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 30px;
-      max-width: 900px;
-    }
-    h1 {
-      text-align: center;
-      margin-bottom: 25px;
-    }
-    input, button {
-      font-size: 16px;
-      padding: 10px;
-      margin-top: 15px;
-      width: 100%;
-      max-width: 500px;
-      display: block;
-    }
-    #status {
-      margin-top: 20px;
-      white-space: pre-wrap;
-      background: #f8f8f8;
-      border: 1px solid #ccc;
-      padding: 15px;
-      border-radius: 5px;
-      min-height: 120px;
-      color: #333;
-      font-family: monospace;
-    }
-  </style>
+    <meta charset="UTF-8"/>
+    <style>
+        body {
+          font-family: Arial, sans-serif;
+          margin: 30px;
+          max-width: 100%;
+        }
+
+        h1 {
+          text-align: center;
+          margin-bottom: 25px;
+        }
+
+        label {
+          font-size: 16px;
+        }
+
+        input[type="file"], button {
+          font-size: 16px;
+          padding: 10px;
+          margin-top: 15px;
+          max-width: 500px;
+          display: inline-block;
+        }
+
+        #status {
+          margin-top: 20px;
+          white-space: pre-wrap;
+          background: #f8f8f8;
+          border: 1px solid #ccc;
+          padding: 15px;
+          border-radius: 5px;
+          min-height: 80px;
+          color: #333;
+          font-family: monospace;
+        }
+
+        table {
+          margin-top: 20px;
+          border-collapse: collapse;
+          width: 100%;
+        }
+
+        th, td {
+          border: 1px solid #ccc;
+          padding: 10px;
+          text-align: left;
+        }
+
+        th {
+          background-color: #f0f0f0;
+        }
+    </style>
 </head>
 <body>
-  <h1>Excel 自动评论助手 - 设置页面</h1>
+<label for="excelFile">选择 Excel 文件:</label>
+<input type="file" id="excelFile" accept=".xlsx"/>
 
-  <input type="file" id="excelFile" accept=".xlsx" />
-  <button id="run">打开网页并填写评论</button>
+<br>
+<button id="run">开始自动填写数据并提交</button>
 
-  <div id="status">状态信息会显示在这里...</div>
+<div id="status">
+操作步骤：
+1. 请选择 Excel 文件
+2. 点击“开始自动填写数据并提交”按钮
+<br>
+</div>
 
-  <script src="libs/xlsx.full.min.js"></script>
-  <script src="options.js"></script>
+<div id="tableContainer"></div>
+
+<script src="libs/xlsx.full.min.js"></script>
+<script src="options.js"></script>
+
 </body>
 </html>
