@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
-  "name": "Excel 自动评论助手",
-  "version": "1.0",
+  "name": "Excel 自动评论",
+  "version": "0.0.1",
   "permissions": ["scripting", "tabs", "storage"],
   "host_permissions": ["https://www.michpong.com/*"],
   "action": {

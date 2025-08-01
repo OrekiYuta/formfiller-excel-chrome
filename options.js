@@ -67,6 +67,7 @@ document.getElementById('excelFile').addEventListener('change', async (e) => {
 
     excelData = json;
     renderTable(excelData);
+//    console.log("Excel数据:", excelData)
 
   } catch (err) {
     updateStatus("读取失败: " + err.message);
