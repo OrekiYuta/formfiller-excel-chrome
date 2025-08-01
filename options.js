@@ -78,33 +78,48 @@ document.getElementById('run').addEventListener('click', async () => {
   }
 
   for (let i = 0; i < excelData.length; i++) {
-    const row = excelData[i];
-    const seq = i + 1;
-    try {
-      updateStatus(`序号${seq}：正在打开链接 ${row['独立站链接']}`);
+  const row = excelData[i];
+  const seq = i + 1;
+  try {
+    updateStatus(`序号${seq}：正在打开链接 ${row['独立站链接']}`);
 
-      const tab = await new Promise((resolve, reject) => {
-        chrome.tabs.create({ url: row['独立站链接'] }, (tab) => {
-          if (chrome.runtime.lastError) {
-            reject(chrome.runtime.lastError);
-          } else {
-            resolve(tab);
-          }
-        });
+    const tab = await new Promise((resolve, reject) => {
+      chrome.tabs.create({ url: row['独立站链接'] }, (tab) => {
+        if (chrome.runtime.lastError) {
+          reject(chrome.runtime.lastError);
+        } else {
+          resolve(tab);
+        }
       });
+    });
 
-      updateStatus(`序号${seq}：正在填写数据...`);
-      await chrome.scripting.executeScript({
-        target: { tabId: tab.id },
-        func: fillForm,
-        args: [row]
+    updateStatus(`序号${seq}：正在填写数据...`);
+    await chrome.scripting.executeScript({
+      target: { tabId: tab.id },
+      func: fillForm,
+      args: [row]
+    });
+
+    updateStatus(`序号${seq}：完成填写 ✔`);
+
+    // 关闭当前标签页
+    await new Promise((resolve, reject) => {
+      chrome.tabs.remove(tab.id, () => {
+        if (chrome.runtime.lastError) {
+          // 关闭失败也不阻止流程，打印错误日志
+          updateStatus(`序号${seq}：关闭标签页失败 ${chrome.runtime.lastError.message}`);
+          resolve();
+        } else {
+          resolve();
+        }
       });
+    });
 
-      updateStatus(`序号${seq}：完成填写 ✔`);
-    } catch (e) {
-      updateStatus(`序号${seq}：操作失败 ❌  ${e.message}`);
-    }
+  } catch (e) {
+    updateStatus(`序号${seq}：操作失败 ❌  ${e.message}`);
   }
+}
+
 
   updateStatus("全部操作完成！🎉");
 });
