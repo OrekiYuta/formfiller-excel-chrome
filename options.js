@@ -71,29 +71,46 @@ document.getElementById('excelFile').addEventListener('change', async (e) => {
 });
 
 // 点击开始按钮，注入脚本
-document.getElementById('run').addEventListener('click', () => {
+document.getElementById('run').addEventListener('click', async () => {
   if (!excelData.length) {
     updateStatus("请先上传 Excel 文件！");
     return;
   }
 
-  const row = excelData[0];
-  updateStatus("打开链接：" + row['独立站链接']);
+  for (let i = 0; i < excelData.length; i++) {
+    const row = excelData[i];
+    const seq = i + 1;
+    try {
+      updateStatus(`序号${seq}：正在打开链接 ${row['独立站链接']}`);
 
-  chrome.tabs.create({ url: row['独立站链接'] }, (tab) => {
-    chrome.scripting.executeScript({
-      target: { tabId: tab.id },
-      func: fillForm,
-      args: [row]
-    }).then(() => {
-      updateStatus("已注入脚本，正在填写表单...");
-    }).catch(e => {
-      updateStatus("注入脚本失败：" + e.message);
-    });
-  });
+      const tab = await new Promise((resolve, reject) => {
+        chrome.tabs.create({ url: row['独立站链接'] }, (tab) => {
+          if (chrome.runtime.lastError) {
+            reject(chrome.runtime.lastError);
+          } else {
+            resolve(tab);
+          }
+        });
+      });
+
+      updateStatus(`序号${seq}：正在填写数据...`);
+      await chrome.scripting.executeScript({
+        target: { tabId: tab.id },
+        func: fillForm,
+        args: [row]
+      });
+
+      updateStatus(`序号${seq}：完成填写 ✔`);
+    } catch (e) {
+      updateStatus(`序号${seq}：操作失败 ❌  ${e.message}`);
+    }
+  }
+
+  updateStatus("全部操作完成！🎉");
 });
 
-// 注入页面脚本，填写表单
+
+// 页面注入脚本，填写表单
 function fillForm(row) {
   const setValue = (selector, value) => {
     const el = document.querySelector(selector);
@@ -103,7 +120,22 @@ function fillForm(row) {
       el.dispatchEvent(new Event('change', { bubbles: true }));
     }
   };
+
   setValue('#comment', row['评论内容']);
   setValue('#author', row['名字']);
   setValue('#email', row['Email']);
+
+  // 选中 5 星评分
+  const starsEl = document.querySelector('p.stars');
+  if (starsEl) {
+    starsEl.classList.add('selected'); // 父元素添加 selected 类
+    // 找到 5 星的 a 标签，添加 active 类
+    const star5 = starsEl.querySelector('a.star-5');
+    if (star5) {
+      star5.classList.add('active');
+      star5.click(); // 触发点击事件，模拟用户选择
+    }
+  }
 }
+
+
