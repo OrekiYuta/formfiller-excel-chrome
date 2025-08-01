@@ -62,6 +62,9 @@ document.getElementById('excelFile').addEventListener('change', async (e) => {
       return;
     }
     updateStatus("读取成功，共 " + json.length + " 条数据");
+    updateStatus(" ");
+    updateStatus(" ");
+
     excelData = json;
     renderTable(excelData);
 
