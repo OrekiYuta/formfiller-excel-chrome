@@ -15,18 +15,37 @@ function renderTable(data) {
   if (!data.length) return;
 
   const keys = Object.keys(data[0]);
-  let html = '<table><thead><tr>';
 
-  // 添加序号表头
+  // 每列宽度配置
+ const colWidths = {
+  '品名': '10%',
+  '沃尔玛ITEM ID': '10%',
+  '独立站链接': '20%',
+  '评论内容': '40%',
+  '名字': '5%',
+  '邮箱': '10%',
+};
+
+
+  // 构建表格 HTML
+  let html = '<table><colgroup>';
+  html += '<col style="width: 5%;">'; // 序号列宽度
+
+  // 为每列添加对应宽度
+  keys.forEach(key => {
+    const width = colWidths[key] || '15%';
+    html += `<col style="width: ${width};">`;
+  });
+  html += '</colgroup><thead><tr>';
+
+  // 表头：序号 + 数据列
   html += '<th>序号</th>';
-
-  // 添加其他表头
   keys.forEach(key => {
     html += `<th>${key}</th>`;
   });
   html += '</tr></thead><tbody>';
 
-  // 添加表格内容，序号从1开始
+  // 表体内容
   data.forEach((row, index) => {
     html += `<tr><td>${index + 1}</td>`;
     keys.forEach(key => {
@@ -142,7 +161,7 @@ function fillForm(row) {
 
   setValue('#comment', row['评论内容']);
   setValue('#author', row['名字']);
-  setValue('#email', row['Email']);
+  setValue('#email', row['邮箱']);
 
   // 选中 5 星评分
   const starsEl = document.querySelector('p.stars');
