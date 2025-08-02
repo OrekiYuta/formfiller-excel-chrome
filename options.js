@@ -129,7 +129,7 @@ document.getElementById('run').addEventListener('click', async () => {
       args: [row]
     });
 
-    updateStatus(`序号${seq}：完成填写 ✔`);
+    updateStatus(`序号${seq}：完成填写并提交 ✔`);
 
     // 关闭当前标签页
     await new Promise((resolve, reject) => {
@@ -179,6 +179,11 @@ function fillForm(row) {
       star5.classList.add('active');
       star5.click(); // 触发点击事件，模拟用户选择
     }
+  }
+
+  const submitBtn = document.querySelector('#submit');
+  if (submitBtn) {
+    submitBtn.click();
   }
 }
 
