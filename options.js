@@ -106,6 +106,9 @@ document.getElementById('run').addEventListener('click', async () => {
     return;
   }
 
+  const intervalSeconds = parseFloat(document.getElementById('intervalInput').value) || 0;
+  const intervalMs = intervalSeconds * 1000;
+
   for (let i = 0; i < excelData.length; i++) {
   const row = excelData[i];
   const seq = i + 1;
@@ -144,11 +147,16 @@ document.getElementById('run').addEventListener('click', async () => {
       });
     });
 
-  } catch (e) {
-    updateStatus(`序号${seq}：操作失败 ❌  ${e.message}`);
-  }
-}
+    } catch (e) {
+      updateStatus(`序号${seq}：操作失败 ❌  ${e.message}`);
+    }
 
+    // 等待指定秒数再继续下一条
+    if (i < excelData.length - 1 && intervalMs > 0) {
+      updateStatus(`等待 ${intervalSeconds} 秒后继续下一条...`);
+      await new Promise(resolve => setTimeout(resolve, intervalMs));
+    }
+  }
 
   updateStatus("全部操作完成！🎉");
 });

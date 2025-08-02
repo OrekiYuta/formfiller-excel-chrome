@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8"/>
-    <link rel="stylesheet" href="libs/mvp.css" />
+    <link rel="stylesheet" href="libs/mvp.css"/>
     <style>
         body {
             margin: 2%;
@@ -107,6 +107,11 @@
           white-space: normal;    /* 支持换行 */
           word-break: break-word; /* 长单词自动换行 */
         }
+        .interval-label {
+            font-family: monospace;
+            font-size: 13px;
+            color: #555;
+        }
 
     </style>
 </head>
@@ -123,6 +128,13 @@
         </div>
 
         <button id="run">开始自动填写数据并提交</button>
+        <div style="margin-top: 10px; display: flex; align-items: center; gap: 8px;">
+            <span class="interval-label">自动操作间隔时间：</span>
+            <input type="number" id="intervalInput" min="0" value="1"
+                   style="width: 60px; font-family: monospace; font-size: 13px; color: #555;">
+            <span class="interval-label">秒</span>
+        </div>
+
     </div>
 
     <div id="status">
