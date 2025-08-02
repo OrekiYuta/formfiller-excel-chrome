@@ -99,6 +99,7 @@ document.getElementById('excelFile').addEventListener('change', async (e) => {
   }
 });
 
+
 // 点击开始按钮，注入脚本
 document.getElementById('run').addEventListener('click', async () => {
   if (!excelData.length) {
@@ -107,7 +108,7 @@ document.getElementById('run').addEventListener('click', async () => {
   }
 
   const intervalSeconds = parseFloat(document.getElementById('intervalInput').value) || 0;
-  const intervalMs = intervalSeconds * 1000;
+  const intervalMs = intervalSeconds * 1000 + 2000; // 在用户输入的基础上加 2 秒
 
   for (let i = 0; i < excelData.length; i++) {
   const row = excelData[i];
@@ -134,6 +135,12 @@ document.getElementById('run').addEventListener('click', async () => {
 
     updateStatus(`序号${seq}：完成填写并提交 ✔`);
 
+    // 等待指定秒数再继续下一条
+    if (i < excelData.length - 1 && intervalMs > 0) {
+      updateStatus(`等待 ${intervalSeconds} 秒后继续下一条...`);
+      await new Promise(resolve => setTimeout(resolve, intervalMs));
+    }
+
     // 关闭当前标签页
     await new Promise((resolve, reject) => {
       chrome.tabs.remove(tab.id, () => {
@@ -151,11 +158,7 @@ document.getElementById('run').addEventListener('click', async () => {
       updateStatus(`序号${seq}：操作失败 ❌  ${e.message}`);
     }
 
-    // 等待指定秒数再继续下一条
-    if (i < excelData.length - 1 && intervalMs > 0) {
-      updateStatus(`等待 ${intervalSeconds} 秒后继续下一条...`);
-      await new Promise(resolve => setTimeout(resolve, intervalMs));
-    }
+
   }
 
   updateStatus("全部操作完成！🎉");
