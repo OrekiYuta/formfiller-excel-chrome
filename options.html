@@ -5,21 +5,29 @@
     <link rel="stylesheet" href="libs/mvp.css" />
     <style>
         body {
-          margin: 2%;
+            margin: 2%;
         }
+
         .container {
             display: flex;
             gap: 20px;
-            align-items: flex-start;
+            align-items: stretch; /* 让左右两栏高度一致 */
             padding: 20px;
         }
+
         .left-column {
             display: flex;
             flex-direction: column;
             gap: 10px;
+            margin-right: 40px;
+            height: 100%;
+
+            justify-content: space-between;
         }
+
         #status {
-            max-height: 100px;
+            display: flex;
+            flex-direction: column;
             overflow-y: auto;
             background: #f8f8f8;
             border: 1px solid #ccc;
@@ -29,25 +37,91 @@
             color: #333;
             white-space: pre-wrap;
             width: 900px;
+
+            /* 让状态栏高度撑满父容器 */
+            flex-grow: 1;
+            height: 150px;
+            max-height: 150px; /* 根据需要设置最大高度 */
         }
-      table {
-        border-collapse: collapse;
-        width: 100%;
-      }
-      th, td {
-        border: 1px solid #ccc;
-        padding: 8px;
-        text-align: left;
-        white-space: pre-wrap; /* 支持单元格内换行 */
-        word-break: break-word; /* 长内容自动换行 */
-      }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+            white-space: pre-wrap; /* 支持单元格内换行 */
+            word-break: break-word; /* 长内容自动换行 */
+        }
+
+        /* 上传按钮和文件名一行排列 */
+        .file-upload-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* 美化上传按钮 */
+        .file-upload-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+
+        .file-upload-button {
+            border: 1px solid #007bff;
+            color: #fff;
+            background-color: #007bff;
+            padding: 8px 20px;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .file-upload-button:hover {
+            background-color: #0056b3;
+        }
+
+        .file-upload-wrapper input[type="file"] {
+            font-size: 100px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .file-name-label {
+          font-family: monospace;
+          font-size: 13px;
+          color: #555;
+          margin-left: 8px; /* 按钮右侧间距 */
+          margin-top: 0;
+          user-select: none;
+
+          width: 200px;           /* 固定宽度，根据需要调整 */
+          white-space: normal;    /* 支持换行 */
+          word-break: break-word; /* 长单词自动换行 */
+        }
+
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="left-column">
-        <input type="file" id="excelFile" accept=".xlsx"/>
+        <div class="file-upload-row">
+            <div class="file-upload-wrapper">
+                <button class="file-upload-button">选择 Excel 文件</button>
+                <input type="file" id="excelFile" accept=".xlsx">
+            </div>
+            <span class="file-name-label" id="fileName">未选择文件</span>
+        </div>
+
         <button id="run">开始自动填写数据并提交</button>
     </div>
 
@@ -55,7 +129,6 @@
 操作步骤：
 1. 请选择 Excel 文件
 2. 点击“开始自动填写数据并提交”按钮
-
     </div>
 </div>
 

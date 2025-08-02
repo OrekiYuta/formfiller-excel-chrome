@@ -2,6 +2,12 @@ const statusEl = document.getElementById('status');
 const tableContainer = document.getElementById('tableContainer');
 let excelData = [];
 
+
+document.getElementById('excelFile').addEventListener('change', function () {
+    const fileName = this.files[0]?.name || '未选择文件';
+    document.getElementById('fileName').textContent = fileName;
+});
+
 // 不清空原始提示，逐条追加日志
 function updateStatus(text) {
   const logLine = document.createElement('div');
