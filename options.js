@@ -126,7 +126,18 @@ document.getElementById('run').addEventListener('click', async () => {
       });
     });
 
+    await new Promise((resolve) => {
+      const listener = (tabId, changeInfo) => {
+        if (tabId === tab.id && changeInfo.status === 'complete') {
+          chrome.tabs.onUpdated.removeListener(listener);
+          resolve();
+        }
+      };
+      chrome.tabs.onUpdated.addListener(listener);
+    });
+
     updateStatus(`序号${seq}：正在填写数据...`);
+    
     await chrome.scripting.executeScript({
       target: { tabId: tab.id },
       func: fillForm,
@@ -136,7 +147,7 @@ document.getElementById('run').addEventListener('click', async () => {
     updateStatus(`序号${seq}：完成填写并提交 ✔`);
 
     // 等待指定秒数再继续下一条
-    if (i < excelData.length - 1 && intervalMs > 0) {
+    if (intervalMs > 0) {
       updateStatus(`等待 ${intervalSeconds} 秒后继续下一条...`);
       await new Promise(resolve => setTimeout(resolve, intervalMs));
     }
