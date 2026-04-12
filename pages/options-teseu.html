@@ -7,6 +7,8 @@
     <style>
         body {
             margin: 0;
+            max-width: none;
+            padding: 0;
         }
 
         .page-header {
@@ -14,6 +16,11 @@
             margin-bottom: 12px;
             border-bottom: 1px solid #d9d9d9;
             background: #fafafa;
+            width: 100%;
+            max-width: none;
+            margin-left: 0;
+            margin-right: 0;
+            box-sizing: border-box;
         }
 
         .top-nav {
@@ -38,6 +45,18 @@
         .top-nav a.active {
             background: #007bff;
             color: #fff;
+        }
+
+        .site-url-row {
+            padding: 0 20px 12px;
+            border-bottom: 1px solid #ededed;
+        }
+
+        .site-url-link {
+            color: #1b6ac9;
+            text-decoration: underline;
+            font-family: monospace;
+            font-size: 13px;
         }
 
         .page-content {
@@ -159,6 +178,10 @@
         <a class="active" href="options-teseu.html">www.teseu.net</a>
     </nav>
 </header>
+
+<div class="site-url-row">
+    点击跳转：<a class="site-url-link" href="https://www.teseu.net/" target="_blank" rel="noopener noreferrer">https://www.teseu.net/</a>
+</div>
 
 <main class="page-content">
 <div class="container">
