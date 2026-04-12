@@ -2,10 +2,31 @@
 <html>
 <head>
     <meta charset="UTF-8"/>
-    <link rel="stylesheet" href="libs/mvp.css"/>
+    <link rel="stylesheet" href="../libs/mvp.css"/>
     <style>
         body {
             margin: 2%;
+        }
+
+        .top-nav {
+            display: flex;
+            gap: 12px;
+            margin: 0 20px 8px;
+        }
+
+        .top-nav a {
+            text-decoration: none;
+            border: 1px solid #007bff;
+            border-radius: 4px;
+            padding: 6px 10px;
+            color: #007bff;
+            font-family: monospace;
+            font-size: 13px;
+        }
+
+        .top-nav a.active {
+            background: #007bff;
+            color: #fff;
         }
 
         .container {
@@ -117,6 +138,11 @@
 </head>
 <body>
 
+<nav class="top-nav">
+    <a href="options-michpong.html">www.michpong.com</a>
+    <a class="active" href="options-teseu.html">www.teseu.net</a>
+</nav>
+
 <div class="container">
     <div class="left-column">
         <div class="file-upload-row">
@@ -146,8 +172,9 @@
 
 <div id="tableContainer"></div>
 
-<script src="libs/xlsx.full.min.js"></script>
-<script src="options.js"></script>
+<script src="../libs/xlsx.full.min.js"></script>
+<script src="../scripts/options-teseu.js"></script>
 
 </body>
 </html>
+

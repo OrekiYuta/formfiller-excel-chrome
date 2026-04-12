@@ -3,9 +3,9 @@
   "name": "Excel 自动评论",
   "version": "0.0.1",
   "permissions": ["scripting", "tabs", "storage"],
-  "host_permissions": ["https://www.michpong.com/*"],
+  "host_permissions": ["https://www.michpong.com/*", "https://www.teseu.net/*"],
   "action": {
     "default_popup": "popup.html"
   },
-  "options_page": "options.html"
+  "options_page": "pages/options-michpong.html"
 }
