@@ -1,17 +1,28 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8"/>
+    <title>www.michpong.com - 自动填写</title>
     <link rel="stylesheet" href="../libs/mvp.css"/>
     <style>
         body {
-            margin: 2%;
+            margin: 0;
+        }
+
+        .page-header {
+            padding: 18px 20px 14px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid #d9d9d9;
+            background: #fafafa;
         }
 
         .top-nav {
             display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            flex-wrap: wrap;
             gap: 12px;
-            margin: 0 20px 8px;
+            margin: 0;
         }
 
         .top-nav a {
@@ -27,6 +38,10 @@
         .top-nav a.active {
             background: #007bff;
             color: #fff;
+        }
+
+        .page-content {
+            padding: 0 20px 20px;
         }
 
         .container {
@@ -138,11 +153,14 @@
 </head>
 <body>
 
-<nav class="top-nav">
-    <a class="active" href="options-michpong.html">www.michpong.com</a>
-    <a href="options-teseu.html">www.teseu.net</a>
-</nav>
+<header class="page-header">
+    <nav class="top-nav">
+        <a class="active" href="options-michpong.html">www.michpong.com</a>
+        <a href="options-teseu.html">www.teseu.net</a>
+    </nav>
+</header>
 
+<main class="page-content">
 <div class="container">
     <div class="left-column">
         <div class="file-upload-row">
@@ -155,7 +173,7 @@
 
         <button id="run">开始自动填写数据并提交</button>
         <div style="margin-top: 10px; display: flex; align-items: center; gap: 8px;">
-            <span class="interval-label">自动操作间隔时间：</span>
+            <label class="interval-label" for="intervalInput">自动操作间隔时间：</label>
             <input type="number" id="intervalInput" min="0" value="1"
                    style="width: 60px; font-family: monospace; font-size: 13px; color: #555;">
             <span class="interval-label">秒</span>
@@ -171,6 +189,7 @@
 </div>
 
 <div id="tableContainer"></div>
+</main>
 
 <script src="../libs/xlsx.full.min.js"></script>
 <script src="../scripts/options-michpong.js"></script>
