@@ -1,11 +1,11 @@
 const statusEl = document.getElementById('status');
 const tableContainer = document.getElementById('tableContainer');
 let excelData = [];
+const REQUIRED_COLUMNS = ['标题', '独立站链接', '评论内容', '名字', '邮箱'];
 
 
 document.getElementById('excelFile').addEventListener('change', function () {
-    const fileName = this.files[0]?.name || '未选择文件';
-    document.getElementById('fileName').textContent = fileName;
+    document.getElementById('fileName').textContent = this.files[0]?.name || '未选择文件';
 });
 
 // 不清空原始提示，逐条追加日志
@@ -20,16 +20,15 @@ function updateStatus(text) {
 function renderTable(data) {
   if (!data.length) return;
 
-  const keys = Object.keys(data[0]);
+  const keys = REQUIRED_COLUMNS;
 
   // 每列宽度配置
  const colWidths = {
-  '品名': '10%',
-  '沃尔玛ITEM ID': '10%',
-  '独立站链接': '20%',
+  '标题': '10%',
+  '独立站链接': '25%',
   '评论内容': '40%',
-  '名字': '5%',
-  '邮箱': '10%',
+  '名字': '10%',
+  '邮箱': '15%',
 };
 
 
@@ -86,11 +85,28 @@ document.getElementById('excelFile').addEventListener('change', async (e) => {
       updateStatus("Excel 内容为空！");
       return;
     }
+
+    const firstRowKeys = Object.keys(json[0]);
+    const missingColumns = REQUIRED_COLUMNS.filter((column) => !firstRowKeys.includes(column));
+    if (missingColumns.length) {
+      updateStatus("Excel 缺少必要列: " + missingColumns.join('、'));
+      updateStatus("需要的列为: " + REQUIRED_COLUMNS.join('、'));
+      return;
+    }
+
+    const normalizedRows = json.map((row) => {
+      const normalized = {};
+      REQUIRED_COLUMNS.forEach((column) => {
+        normalized[column] = row[column] == null ? '' : String(row[column]).trim();
+      });
+      return normalized;
+    });
+
     updateStatus("读取成功，共 " + json.length + " 条数据");
     updateStatus(" ");
     updateStatus(" ");
 
-    excelData = json;
+    excelData = normalizedRows;
     renderTable(excelData);
 //    console.log("Excel数据:", excelData)
 
@@ -114,10 +130,16 @@ document.getElementById('run').addEventListener('click', async () => {
   const row = excelData[i];
   const seq = i + 1;
   try {
-    updateStatus(`序号${seq}：正在打开链接 ${row['独立站链接']}`);
+    const url = row['独立站链接'];
+    if (!url) {
+      updateStatus(`序号${seq}：缺少“独立站链接”，已跳过`);
+      continue;
+    }
+
+    updateStatus(`序号${seq}：正在打开链接 ${url}`);
 
     const tab = await new Promise((resolve, reject) => {
-      chrome.tabs.create({ url: row['独立站链接'] }, (tab) => {
+      chrome.tabs.create({ url }, (tab) => {
         if (chrome.runtime.lastError) {
           reject(chrome.runtime.lastError);
         } else {
@@ -153,7 +175,7 @@ document.getElementById('run').addEventListener('click', async () => {
     }
 
     // 关闭当前标签页
-    await new Promise((resolve, reject) => {
+    await new Promise((resolve) => {
       chrome.tabs.remove(tab.id, () => {
         if (chrome.runtime.lastError) {
           // 关闭失败也不阻止流程，打印错误日志
@@ -187,7 +209,8 @@ function fillFormTeseu(row) {
     }
   };
 
-  setValue('#comment', row['评论内容']);
+  setValue('input[name="wcpr_review_title"]', row['标题']);
+  setValue('#wcpr-comment', row['评论内容']);
   setValue('#author', row['名字']);
   setValue('#email', row['邮箱']);
 
@@ -203,7 +226,13 @@ function fillFormTeseu(row) {
     }
   }
 
-  const submitBtn = document.querySelector('#submit');
+  const ratingSelect = document.querySelector('#wcpr-rating');
+  if (ratingSelect) {
+    ratingSelect.value = '5';
+    ratingSelect.dispatchEvent(new Event('change', { bubbles: true }));
+  }
+
+  const submitBtn = document.querySelector('#submit') || document.querySelector('input[type="submit"]');
   if (submitBtn) {
     submitBtn.click();
   }
