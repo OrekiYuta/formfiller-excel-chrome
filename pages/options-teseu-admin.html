@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8"/>
-    <title>www.teseu.net - 自动填写</title>
+    <title>www.teseu.net 后台 - 自动填写</title>
     <link rel="stylesheet" href="../libs/mvp.css"/>
     <style>
         body {
@@ -66,7 +66,7 @@
         .container {
             display: flex;
             gap: 20px;
-            align-items: stretch; /* 让左右两栏高度一致 */
+            align-items: stretch;
             padding: 20px;
         }
 
@@ -76,7 +76,6 @@
             gap: 10px;
             margin-right: 40px;
             height: 100%;
-
             justify-content: space-between;
         }
 
@@ -92,11 +91,9 @@
             color: #333;
             white-space: pre-wrap;
             width: 900px;
-
-            /* 让状态栏高度撑满父容器 */
             flex-grow: 1;
             height: 150px;
-            max-height: 150px; /* 根据需要设置最大高度 */
+            max-height: 150px;
         }
 
         table {
@@ -108,18 +105,16 @@
             border: 1px solid #ccc;
             padding: 8px;
             text-align: left;
-            white-space: pre-wrap; /* 支持单元格内换行 */
-            word-break: break-word; /* 长内容自动换行 */
+            white-space: pre-wrap;
+            word-break: break-word;
         }
 
-        /* 上传按钮和文件名一行排列 */
         .file-upload-row {
             display: flex;
             align-items: center;
             gap: 12px;
         }
 
-        /* 美化上传按钮 */
         .file-upload-wrapper {
             position: relative;
             overflow: hidden;
@@ -151,23 +146,22 @@
         }
 
         .file-name-label {
-          font-family: monospace;
-          font-size: 13px;
-          color: #555;
-          margin-left: 8px; /* 按钮右侧间距 */
-          margin-top: 0;
-          user-select: none;
-
-          width: 200px;           /* 固定宽度，根据需要调整 */
-          white-space: normal;    /* 支持换行 */
-          word-break: break-word; /* 长单词自动换行 */
+            font-family: monospace;
+            font-size: 13px;
+            color: #555;
+            margin-left: 8px;
+            margin-top: 0;
+            user-select: none;
+            width: 200px;
+            white-space: normal;
+            word-break: break-word;
         }
+
         .interval-label {
             font-family: monospace;
             font-size: 13px;
             color: #555;
         }
-
     </style>
 </head>
 <body>
@@ -175,13 +169,13 @@
 <header class="page-header">
     <nav class="top-nav">
         <a href="options-michpong.html">www.michpong.com</a>
-        <a class="active" href="options-teseu.html">www.teseu.net</a>
-        <a href="options-teseu-admin.html">www.teseu.net 后台</a>
+        <a href="options-teseu.html">www.teseu.net</a>
+        <a class="active" href="options-teseu-admin.html">www.teseu.net 后台</a>
     </nav>
 </header>
 
 <div class="site-url-row">
-    点击跳转：<a class="site-url-link" href="https://www.teseu.net/" target="_blank" rel="noopener noreferrer">https://www.teseu.net/</a>
+    点击跳转：<a class="site-url-link" href="https://www.teseu.net/wp-admin/" target="_blank" rel="noopener noreferrer">https://www.teseu.net/wp-admin/</a>
 </div>
 
 <main class="page-content">
@@ -207,8 +201,8 @@
 
     <div id="status">
 操作步骤：
-1. 请先退出 www.teseu.net/wp-admin/ 后台，确保没有登录状态
-2. 然后选择 Excel 文件 (www.teseu.net_template.xlsx)
+1. 请先登录 www.teseu.net/wp-admin/ 后台，进入后台界面
+2. 然后选择 Excel 文件 (www.teseu.net_admin_template.xlsx)
 3. 最后点击“开始自动填写数据并提交”按钮
     </div>
 </div>
@@ -217,7 +211,8 @@
 </main>
 
 <script src="../libs/xlsx.full.min.js"></script>
-<script src="../scripts/options-teseu.js"></script>
+<script src="../scripts/options-teseu-admin.js"></script>
 
 </body>
 </html>
+
